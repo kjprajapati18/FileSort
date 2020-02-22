@@ -15,7 +15,9 @@ typedef struct _Node{
 
 int getInput(Node* head, int fd);
 int intComparator(void* nodeOne, void* nodeTwo);
+int stringComparator(void* nodeOne, void* nodeTwo);
 int isNumber(char* string);
+int isString(char* string);
 
 int insertionSort(void* toSort, int (*comparator)(void*, void*));
 int quickSort(void* toSort, int(*comparator)(void*, void*));
@@ -28,14 +30,14 @@ int main(int argc, char* argv[]){
     return -1;
   }
 
-  int quickSort = -1;
+  int quicksort = -1;
 
   if(*(argv[1]) == '-' && *(argv[1]+1) == 'q'){
     printf("Using the quicksort flag!\n");
-    quickSort = 1;
+    quicksort = 1;
   } else if( *(argv[1]) == '-' && *(argv[1]+1)== 'i'){
     printf("Using the insertion sort flag!\n");
-    quickSort = 0;
+    quicksort = 0;
   } else {
     printf("Fatal Error: You must use either -q or -i as a flag\n");
     return -1;
@@ -51,7 +53,7 @@ int main(int argc, char* argv[]){
   //All inputs for calling the function are valid, try to read and store the words
 
   Node* head = (Node*) malloc(sizeof(Node));
-
+  Node* ptr = head;
   int valid = getInput(head, fd);
   if(valid == -1){
     printf("Fatal Error: Something went wrong reading. Errno: %d\n", errno);
@@ -64,6 +66,18 @@ int main(int argc, char* argv[]){
     printf("%s\n", head->value);
     head = head->next;
   }
+  /*printf("Hello workld");
+  int check1 = isString(ptr->value);
+  printf("%d\n", check1);
+  int check = stringComparator(ptr->value, ptr->next->value);
+  printf("%d\n", check);
+  int (*strComp) (void* p, void* q) = &stringComparator;
+  quickSort(ptr, (*strComp));
+  while(ptr != NULL){
+    printf("%s\n", ptr->value);
+    ptr= ptr->next;
+    }*/
+  
 
   return 0;
 }
