@@ -1,4 +1,4 @@
-;#include <stdlib.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -178,8 +178,8 @@ int isString(char *string){
     else return 0;
   }
   return 1;
-  }
 }
+
 
 int intComparator(void* inp1, void* inp2){
   int num1 = atoi((char*) inp1);
@@ -201,7 +201,7 @@ int stringComparator(void* nodeOne, void* nodeTwo){
   int same = 0;
   int which;
   //find which string is shorter
-  if strlen((char*) nodeOne) < strlen((char*) nodeTwo){
+  if (strlen((char*) nodeOne) < strlen((char*) nodeTwo)){
     size = strlen((char*) nodeOne);
     which = 0;
   }
@@ -215,10 +215,10 @@ int stringComparator(void* nodeOne, void* nodeTwo){
   
   //check char by char for differences
   for(i = 0; i < size; i++){
-    if((char*) nodeOne[i] < (char*) nodeTwo[i]){
+    if(((char*) nodeOne)[i] < ((char*) nodeTwo)[i]){
       return -1;
     }
-    else if((char*) nodeOne[i] > (char*) nodeTwo[i]){
+    else if( ((char*) nodeOne)[i] > ((char*) nodeTwo)[i]){
       return 1;
     }
   }
@@ -236,11 +236,12 @@ int stringComparator(void* nodeOne, void* nodeTwo){
 
 int insertionSort(void* toSort, int (*comparator)(void*, void*)){
   Node* head = (Node*) toSort;
+  return 0;
 }
 
 int quickSort(void* toSort, int (*comparator)(void*, void*)){
-  Node* head - (Node*) toSort;
+  Node* head = (Node*) toSort;
   Node* ptr = head;
-  
+  return 0;
 }
 
