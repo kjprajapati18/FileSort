@@ -252,6 +252,9 @@ int quickSort(void* toSort, int (*comparator)(void*, void*)){
       head->next = temp;
       ptr = prev->next
     }
+    else{
+      prev = ptr;
+      ptr = ptr->next;
   }
   quicksort(head, comparator);
   quicksort(pivot->next, comparator);
