@@ -240,6 +240,9 @@ int insertionSort(void* toSort, int (*comparator)(void*, void*)){
 }
 
 int quickSort(void* toSort, int (*comparator)(void*, void*)){
+  if (toSort == NULL){
+    return 0;
+  }
   Node* pivot = (Node*) toSort;
   Node* head = (Node*) toSort;
   Node* prev = pivot;
