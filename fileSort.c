@@ -13,6 +13,10 @@ typedef struct _Node{
   struct _Node* next;
 } Node;
 
+typedef struct LL{
+  Node* first;
+}LL;
+
 int getInput(Node* head, int fd);
 int intComparator(void* nodeOne, void* nodeTwo);
 int stringComparator(void* nodeOne, void* nodeTwo);
@@ -53,6 +57,8 @@ int main(int argc, char* argv[]){
   //All inputs for calling the function are valid, try to read and store the words
 
   Node* head = (Node*) malloc(sizeof(Node));
+  LL* linkedList = (LL*) malloc(sizeof(LL));
+  linkedList->first = head;
   Node* ptr = head;
   int valid = getInput(head, fd);
   if(valid == -1){
@@ -70,7 +76,9 @@ int main(int argc, char* argv[]){
   }
   printf("%s\n", head->value);
   int (*strComp) (void* p, void* q) = &stringComparator;
-  quickSort(ptr, (*strComp));
+  quickSort(linkedList, (*strComp));
+  printf("\n\n\n");
+  ptr = linkedList->first;
   while(ptr != NULL){
     printf("%s\n", ptr->value);
     ptr= ptr->next;
@@ -263,22 +271,27 @@ int insertionSort(void* toSort, int (*comparator)(void*, void*)){
 }
 
 int quickSort(void* toSort, int (*comparator)(void*, void*)){
-  if (((Node*) toSort)->next == NULL){
-    printf("right done");
-    return 0;
-  }
-  if (toSort == NULL){
+  Node* toSort2 = ((LL*) toSort)->first;
+  Node* pivot = toSort2;
+  Node* head = toSort2;
+ 
+  if (head == NULL){
     printf("no node");
     return 0;
   }
-  Node* pivot = (Node*) toSort;
-  Node* head = (Node*) toSort;
+  if (pivot->next == NULL){
+    printf("right done");
+    return 0;
+  }
+  Node* beforePivot = NULL;
   Node* prev = pivot;
   Node* ptr = pivot->next;
+ 
   while (ptr != NULL){
     if(comparator(ptr->value, pivot->value) == -1){
       prev->next = ptr->next;
       Node* temp = head;
+      if(beforePivot == NULL) beforePivot =ptr;
       head = ptr;
       head->next = temp;
       ptr = prev->next;
@@ -290,13 +303,25 @@ int quickSort(void* toSort, int (*comparator)(void*, void*)){
       printf("already after pivot");
     }
   }
+  ((LL*) toSort)->first = head;
+  LL* right = (LL*) malloc(sizeof(LL));
+  right->first = pivot->next;
+  if(beforePivot != NULL) beforePivot->next = NULL;
   ptr = head;
   while(ptr != NULL){
     printf("%s\n", ptr->value);
     ptr=ptr->next;
   }
-  quickSort(pivot->next, comparator);
+  quickSort(right, comparator);
   printf("done with right side");
-  quickSort(head, comparator);
+  if(beforePivot !=NULL) quickSort(toSort, comparator);
+
+  ptr = ((LL*) toSort)->first;
+  while(ptr->next != NULL){
+    ptr = ptr->next;
+  }
+  ptr->next = pivot;
+  pivot->next = right->first;
+  free(right);
   return 0;
 }
