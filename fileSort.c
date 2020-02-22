@@ -62,22 +62,31 @@ int main(int argc, char* argv[]){
   else if(valid == 0){
     printf("Error: malloc returned a NULL pointer. Continuing with currently stored values.\n");
   }
-  while(head != NULL){
+  while(head->next != NULL){
     printf("%s\n", head->value);
+    int check = stringComparator(ptr->value, head->next->value);
+    printf("%d\n", check);
     head = head->next;
   }
-  /*printf("Hello workld");
-  int check1 = isString(ptr->value);
-  printf("%d\n", check1);
-  int check = stringComparator(ptr->value, ptr->next->value);
-  printf("%d\n", check);
+  printf("%s\n", head->value);
   int (*strComp) (void* p, void* q) = &stringComparator;
   quickSort(ptr, (*strComp));
   while(ptr != NULL){
     printf("%s\n", ptr->value);
     ptr= ptr->next;
-    }*/
-  
+  }
+  //printf("Hellow rold");
+  //int check1 = isString(ptr->value);
+  //printf("%d\n", check1);
+  //int check = stringComparator(ptr->value, ptr->next->value);
+  //printf("%d\n", check);
+  /*int (*strComp) (void* p, void* q) = &stringComparator;
+  quickSort(ptr, (*strComp));
+  while(ptr != NULL){
+    printf("%s\n", ptr->value);
+    ptr= ptr->next;
+  }
+  */
 
   return 0;
 }
@@ -254,7 +263,12 @@ int insertionSort(void* toSort, int (*comparator)(void*, void*)){
 }
 
 int quickSort(void* toSort, int (*comparator)(void*, void*)){
+  if (((Node*) toSort)->next == NULL){
+    printf("right done");
+    return 0;
+  }
   if (toSort == NULL){
+    printf("no node");
     return 0;
   }
   Node* pivot = (Node*) toSort;
@@ -268,14 +282,21 @@ int quickSort(void* toSort, int (*comparator)(void*, void*)){
       head = ptr;
       head->next = temp;
       ptr = prev->next;
+      printf("moved to head\n");
     }
     else{
       prev = ptr;
       ptr = ptr->next;
+      printf("already after pivot");
     }
   }
-  quickSort(head, comparator);
+  ptr = head;
+  while(ptr != NULL){
+    printf("%s\n", ptr->value);
+    ptr=ptr->next;
+  }
   quickSort(pivot->next, comparator);
+  printf("done with right side");
+  quickSort(head, comparator);
   return 0;
 }
-
