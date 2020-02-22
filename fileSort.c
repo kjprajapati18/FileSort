@@ -242,6 +242,7 @@ int insertionSort(void* toSort, int (*comparator)(void*, void*)){
 int quickSort(void* toSort, int (*comparator)(void*, void*)){
   Node* head = (Node*) toSort;
   Node* ptr = head;
+  Node* prev = NULL;
   return 0;
 }
 
