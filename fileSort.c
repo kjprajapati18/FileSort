@@ -248,19 +248,20 @@ int quickSort(void* toSort, int (*comparator)(void*, void*)){
   Node* prev = pivot;
   Node* ptr = pivot->next;
   while (ptr != NULL){
-    if(*comparator(ptr->val, pivot->val) == -1){
+    if(comparator(ptr->value, pivot->value) == -1){
       prev->next = ptr->next;
       Node* temp = head;
       head = ptr;
       head->next = temp;
-      ptr = prev->next
+      ptr = prev->next;
     }
     else{
       prev = ptr;
       ptr = ptr->next;
+    }
   }
-  quicksort(head, comparator);
-  quicksort(pivot->next, comparator);
+  quickSort(head, comparator);
+  quickSort(pivot->next, comparator);
   return 0;
 }
 
