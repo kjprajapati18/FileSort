@@ -76,7 +76,7 @@ int main(int argc, char* argv[]){
   }
   printf("%s\n", head->value);
   int (*strComp) (void* p, void* q) = &stringComparator;
-  quickSort(linkedList, (*strComp));
+  insertionSort(linkedList, (*strComp));
   printf("\n\n\n");
   ptr = linkedList->first;
   while(ptr != NULL){
@@ -266,7 +266,46 @@ int stringComparator(void* nodeOne, void* nodeTwo){
 }
 
 int insertionSort(void* toSort, int (*comparator)(void*, void*)){
-  Node* head = (Node*) toSort;
+  Node* head = ((LL*) toSort)->first;
+  Node* ptr = head;
+  Node* prev = NULL;
+  Node* start = head->next;
+  Node* startPrev = head;
+  while (start != NULL){
+    int changed = 0;
+    ptr = head;
+    while(ptr != start){
+      if(comparator(start->value, ptr->value) == -1){
+	//adding to head front
+	if(prev == NULL){
+	  startPrev->next = start->next;
+	  start ->next = startPrev;
+	  head = start;
+	  start = startPrev->next;
+	  changed = 1;
+	  break;
+	}
+	//otherwise
+	else{
+	  startPrev->next = start->next;
+	  prev->next = start;
+	  start->next = ptr;
+	  start= startPrev->next;
+	  changed = 1;
+	  break;
+	}
+      }
+      else{
+	prev = ptr;
+	ptr = ptr->next;
+      }
+    }
+    if(!changed){ 
+      startPrev = start;
+      start = start->next;
+    }
+  }
+  ((LL*) toSort)->first = head;
   return 0;
 }
 
