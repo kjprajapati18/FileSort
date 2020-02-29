@@ -343,13 +343,13 @@ int quickSort(void* toSort, int (*comparator)(void*, void*)){
   if(beforePivot !=NULL) quickSort(toSort, comparator);
 
   ptr = ((LL*) toSort)->first;
-  if( beforePivot != NULL){
+  if(beforePivot != NULL){
     while(ptr->next != NULL){
       ptr = ptr->next;
     }
     ptr->next = pivot;
-    pivot->next = right->first;
   }
+  pivot->next = right->first;
   free(right);
   return 0;
 }
