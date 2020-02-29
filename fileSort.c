@@ -30,7 +30,7 @@ int main(int argc, char* argv[]){
 
   //Error checking with inputs
   if(argc != 3){
-    printf("Fatal Error: The amount of arguments is incorrect\n");
+    printf("Fatal Error: The amount of arguments is incorrect.\n");
     return -1;
   }
 
@@ -43,14 +43,14 @@ int main(int argc, char* argv[]){
     printf("Using the insertion sort flag!\n");
     quicksort = 0;
   } else {
-    printf("Fatal Error: You must use either -q or -i as a flag\n");
+    printf("Fatal Error: \"%s\" is not a valid sort flag\n", argv[1]);
     return -1;
   }
 
   int fd = open(argv[2], O_RDONLY);
 
   if(fd < 0){
-    printf("Fatal Error: Could not open file\n");
+    printf("Fatal Error: Could not open file %s\n", argv[2]);
     return -1;
   }
 
@@ -68,34 +68,18 @@ int main(int argc, char* argv[]){
   else if(valid == 0){
     printf("Error: malloc returned a NULL pointer. Continuing with currently stored values.\n");
   }
-  while(head->next != NULL){
-    printf("%s\n", head->value);
-    int check = stringComparator(ptr->value, head->next->value);
-    printf("%d\n", check);
-    head = head->next;
-  }
-  printf("%s\n", head->value);
+
+
   int (*strComp) (void* p, void* q) = &stringComparator;
   insertionSort(linkedList, (*strComp));
-  printf("\n\n\n");
-  ptr = linkedList->first;
-  while(ptr != NULL){
-    printf("%s\n", ptr->value);
-    ptr= ptr->next;
-  }
-  //printf("Hellow rold");
-  //int check1 = isString(ptr->value);
-  //printf("%d\n", check1);
-  //int check = stringComparator(ptr->value, ptr->next->value);
-  //printf("%d\n", check);
-  /*int (*strComp) (void* p, void* q) = &stringComparator;
-  quickSort(ptr, (*strComp));
-  while(ptr != NULL){
-    printf("%s\n", ptr->value);
-    ptr= ptr->next;
-  }
-  */
 
+  ptr = linkedList->first;
+
+  while(ptr != NULL){
+    printf("%s\n", ptr->value);
+    ptr= ptr->next;
+  }
+  
   return 0;
 }
 
