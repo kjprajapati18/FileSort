@@ -175,6 +175,9 @@ int getInput(Node* head, int fd){
     //Word is now complete, so we reset everything and move onto the next word/Node
     if(numOfWordBytes == 0 && bytesRead == 0){
       //Only will come here if the last character is a comma (don't create the empty token)
+      prev->next = NULL;
+      free(head->value);
+      free(head);
       return 1;
     }
 
