@@ -70,15 +70,28 @@ int main(int argc, char* argv[]){
   else if(valid == 0){
     printf("Error: malloc returned a NULL pointer. Continuing with currently stored values.\n");
   }
-
-  while(ptr != NULL){
-    printf("%s,", ptr->value);
-    ptr= ptr->next;
-  }
-  printf("\n\n%d\n\n", isNumber(head->value));
+  //printf("\n\n%d\n\n", isNumber(head->value));
   //Check if the inputs are integers or Strings. Call the appropriate sort
-  int isNum = isNumber(head->value);
-  
+  int isNum = 0;
+  while(ptr != NULL){
+    if(*(ptr->value) == '\0')
+      ptr = ptr->next;
+    else
+      break;
+  }
+  if (ptr ==NULL){
+    printf("Warning: File is either empty or filled with empty tokens. Will treat as empty strings.\n");
+  }
+  else{
+    isNum = isNumber(ptr->value);
+  }
+
+  ptr = linkedList->first;
+  while(ptr !=NULL){
+      printf("%s,", ptr->value);
+      ptr = ptr->next;
+  }
+  printf("\n");
   int (*comp) (void* p, void* q) = isNum? intComparator : stringComparator;
   quicksort? quickSort(linkedList, comp) : insertionSort(linkedList, comp);
 
