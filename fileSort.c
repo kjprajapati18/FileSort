@@ -307,11 +307,10 @@ int quickSort(void* toSort, int (*comparator)(void*, void*)){
   Node* head = toSort2;
  
   if (head == NULL){
-    printf("no node");
     return 0;
   }
   if (pivot->next == NULL){
-    printf("right done");
+
     return 0;
   }
   Node* beforePivot = NULL;
@@ -326,33 +325,31 @@ int quickSort(void* toSort, int (*comparator)(void*, void*)){
       head = ptr;
       head->next = temp;
       ptr = prev->next;
-      printf("moved to head\n");
+
     }
     else{
       prev = ptr;
       ptr = ptr->next;
-      printf("already after pivot");
+
     }
   }
   ((LL*) toSort)->first = head;
   LL* right = (LL*) malloc(sizeof(LL));
   right->first = pivot->next;
   if(beforePivot != NULL) beforePivot->next = NULL;
-  ptr = head;
-  while(ptr != NULL){
-    printf("%s\n", ptr->value);
-    ptr=ptr->next;
-  }
+
   quickSort(right, comparator);
-  printf("done with right side");
+
   if(beforePivot !=NULL) quickSort(toSort, comparator);
 
   ptr = ((LL*) toSort)->first;
-  while(ptr->next != NULL){
-    ptr = ptr->next;
+  if( beforePivot != NULL){
+    while(ptr->next != NULL){
+      ptr = ptr->next;
+    }
+    ptr->next = pivot;
+    pivot->next = right->first;
   }
-  ptr->next = pivot;
-  pivot->next = right->first;
   free(right);
   return 0;
 }
