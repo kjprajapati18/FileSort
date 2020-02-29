@@ -55,11 +55,11 @@ int main(int argc, char* argv[]){
   }
 
   //All inputs for calling the function are valid, try to read and store the words
-
   Node* head = (Node*) malloc(sizeof(Node));
   LL* linkedList = (LL*) malloc(sizeof(LL));
   linkedList->first = head;
   Node* ptr = head;
+
   int valid = getInput(head, fd);
   if(valid == -1){
     printf("Fatal Error: Something went wrong reading. Errno: %d\n", errno);
@@ -69,9 +69,11 @@ int main(int argc, char* argv[]){
     printf("Error: malloc returned a NULL pointer. Continuing with currently stored values.\n");
   }
 
-
-  int (*strComp) (void* p, void* q) = &stringComparator;
-  insertionSort(linkedList, (*strComp));
+  //Check if the inputs are integers or Strings. Call the appropriate sort
+  int isNum = isNumber(head->value);
+  
+  int (*comp) (void* p, void* q) = isNum? intComparator : stringComparator;
+  quicksort? quickSort(linkedList, comp) : insertionSort(linkedList, comp);
 
   ptr = linkedList->first;
 
@@ -194,7 +196,6 @@ int isString(char *string){
   }
   return 1;
 }
-
 
 int intComparator(void* inp1, void* inp2){
   int num1 = atoi((char*) inp1);
