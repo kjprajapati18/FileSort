@@ -69,6 +69,11 @@ int main(int argc, char* argv[]){
     printf("Error: malloc returned a NULL pointer. Continuing with currently stored values.\n");
   }
 
+  while(ptr != NULL){
+    printf("%s,", ptr->value);
+    ptr= ptr->next;
+  }
+  printf("\n\n%d\n\n", isNumber(head->value));
   //Check if the inputs are integers or Strings. Call the appropriate sort
   int isNum = isNumber(head->value);
   
@@ -174,14 +179,15 @@ int getInput(Node* head, int fd){
 int isNumber(char *string){
   
   int i = 0;
+  //  if(string == '/0') return -1;
   if(string[0] == '-' || isdigit(string[0])){
     i++;
   } else {
     return 0;
   }
   
-  while(*(string + i) != '\0'){
-    if(isdigit(*(string+i))) continue;
+  while(string[i] != '\0'){
+    if(isdigit(string[i])) i++;
     else return 0;
   }
   
