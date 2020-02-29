@@ -26,6 +26,8 @@ int isString(char* string);
 int insertionSort(void* toSort, int (*comparator)(void*, void*));
 int quickSort(void* toSort, int(*comparator)(void*, void*));
 
+void freeList(LL* list);
+
 int main(int argc, char* argv[]){
 
   //Error checking with inputs
@@ -94,7 +96,9 @@ int main(int argc, char* argv[]){
       ptr = ptr->next;
     }
   }
-  
+
+  freeList(linkedList);
+  close(fd);
   return 0;
 }
 
@@ -360,4 +364,19 @@ int quickSort(void* toSort, int (*comparator)(void*, void*)){
   pivot->next = right->first;
   free(right);
   return 0;
+}
+
+void freeList(LL* list){
+
+  Node* ptr = list->first, *temp;
+
+  while(ptr !=NULL){
+    free(ptr->value);
+    temp = ptr->next;
+    free(ptr);
+    ptr=temp;
+  }
+
+  free(list);
+  return;
 }
