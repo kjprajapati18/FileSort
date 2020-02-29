@@ -265,6 +265,7 @@ int insertionSort(void* toSort, int (*comparator)(void*, void*)){
   while (start != NULL){
     int changed = 0;
     ptr = head;
+    prev = NULL;
     while(ptr != start){
       if(comparator(start->value, ptr->value) == -1){
 	//adding to head front
