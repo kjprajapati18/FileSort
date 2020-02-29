@@ -81,10 +81,18 @@ int main(int argc, char* argv[]){
   quicksort? quickSort(linkedList, comp) : insertionSort(linkedList, comp);
 
   ptr = linkedList->first;
-
-  while(ptr != NULL){
-    printf("%s\n", ptr->value);
-    ptr= ptr->next;
+  
+  if (isNum){
+    while(ptr !=NULL){
+      printf("%d\n", atoi(ptr->value));
+      ptr = ptr->next;
+    }
+  }
+  else{
+    while(ptr !=NULL){
+      printf("%s\n", ptr->value);
+      ptr = ptr->next;
+    }
   }
   
   return 0;
