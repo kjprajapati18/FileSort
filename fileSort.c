@@ -279,7 +279,7 @@ int insertionSort(void* toSort, int (*comparator)(void*, void*)){
 	//adding to head front
 	if(prev == NULL){
 	  startPrev->next = start->next;
-	  start ->next = startPrev;
+	  start->next = ptr;
 	  head = start;
 	  start = startPrev->next;
 	  changed = 1;
