@@ -59,6 +59,13 @@ int main(int argc, char* argv[]){
   //All inputs for calling the function are valid, try to read and store the words
   LL* linkedList = (LL*) malloc(sizeof(LL));
   int valid = getInput(linkedList, fd);
+  //int counter = 1;
+  Node* ptr4 = linkedList->first;
+  while(ptr4 != NULL){
+    printf("%s,", ptr4->value);
+    ptr4 = ptr4->next;
+    //counter++;
+  }
   return 0;
 
   if(valid == -1){
@@ -212,30 +219,53 @@ int getInput(LL* list, int fd){
 
   list->first = (Node*) malloc(sizeof(Node));
   Node* ptr = list->first;
+
+  ptr->value = (char*) malloc(1);
   *(ptr->value) = '\0';
   
   int bytesRead = 1;
-  int status = 0;
-  char buffer[200];
+  int size = 0;
+  char buffer[201];
 
 
   
   do{
     bytesRead = read(fd, buffer, 200);
     if(bytesRead == -1) return -1;
-    else if (bytesRead == 0) break;
+    else if (bytesRead == 0){
+      ptr->next == NULL;
+      break;
+    }
 
     int i = 0;
     int startIndex = 0;
     for(i = 0; i<bytesRead; i++){
-      if(isspace(buffer[i])){
+      if (buffer[i] == ','){
+	size = strlen(ptr->value);
+	char* temp = (char*) malloc(i-startIndex+ size+1);
+	memcpy(temp, ptr->value, size+1);
+	free(ptr->value);
+	ptr->value = temp;
 	buffer[i] = '\0';
-      	strncat(buffer, buffer+i+1, bytesRead-i);
+	strcat(ptr->value, buffer+startIndex);
+	startIndex = i+1;
+	ptr->next = (Node *) malloc(sizeof(Node));
+	ptr = ptr->next;
+	ptr->value = (char*) malloc(1);
+	*(ptr->value) = '\0';
       }
     }
-    printf("%s", buffer);
     
+    if(bytesRead == startIndex) continue;
+    buffer[200] = '\0';
+    size = strlen(ptr->value);
+    char* temp = (char*) malloc(bytesRead-startIndex+ size+1);
+    memcpy(temp, ptr->value, size+1);
+    free(ptr->value);
+    ptr->value = temp;
+    strcat(ptr->value, buffer+startIndex);
   }while(bytesRead>0);
+
 
   return 0;
 
