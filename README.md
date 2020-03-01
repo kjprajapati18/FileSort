@@ -28,11 +28,11 @@ Fatal Errors: These are errors that will kill the program.
       6. Quicksort memory error - program will terminate and print a Fatal Error statement if there is not enough memory to allocate in the quicksort method. 
 
 Errors: These are errors that are unexpected but will not necessarily end the program
-	1. Not enough space - program will print an Error statement if there is not enough memory to store all elemnts from the file. Program will attempt to continue with any information that it has currently stored.
+	1. Not enough space - program will print an Error statement if there is not enough memory to store all elemnts from the file. Program will attempt to sort with any currently completed tokens.
 	
 Warnings: These are clarifications for the user in cases that seem incorrect but the program can still run
-	  1. Empty file - program will print out a warning if it recognizes that a file is empty or entirely composed of whitespace characters
-	  2. No non-empty tokens - program will print out a warning if it recognizes that a file only contains commas (and possibly whitespace characters)
+	  1. Empty file - program will print out a warning if it recognizes that a file is empty or entirely composed of whitespace characters.
+	  2. No non-empty tokens - program will print out a warning if it recognizes that a file only contains commas (and possibly whitespace characters).
 
 
 RETURN VALUE
@@ -40,4 +40,4 @@ Program will print out the content that was read in alphabetical order if the in
 
 
 NOTES
-File is allowed to have empty tokens. If the program detects that Strings are being sorted, then these empty tokens will show up first as new lines. If the program detects that integers are being sorted, then these empty tokens are converted to 0.
+File is allowed to have empty tokens. If the program detects that Strings are being sorted, then these empty tokens will show up as new lines. If the program detects that integers are being sorted, then these empty tokens are converted to 0. If the file is composed of entirely empty tokens, it will treat them as strings.
