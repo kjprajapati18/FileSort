@@ -255,8 +255,8 @@ int getInput(LL* list, int fd){
   while(ptr != NULL){
     for(i =0; i < strlen(ptr->value); i++){
       if(isspace((ptr->value)[i])){
-	(ptr->value)[i] = '\0';
 	char buff[strlen(ptr->value) - i];
+	(ptr->value)[i] = '\0';
 	strcpy(buff, ptr->value + i + 1);
 	strcat(ptr->value, buff);
 	i--;
