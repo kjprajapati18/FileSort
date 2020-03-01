@@ -236,10 +236,11 @@ int getInput(LL* list, int fd){
       ptr->next == NULL;
       break;
     }
-
+    buffer[bytesRead] = '\0';
     int i = 0;
     int startIndex = 0;
     for(i = 0; i<bytesRead; i++){
+      if (buffer[i] == '\0') break;
       if (buffer[i] == ','){
 	size = strlen(ptr->value);
 	char* temp = (char*) malloc(i-startIndex+ size+1);
@@ -264,9 +265,10 @@ int getInput(LL* list, int fd){
     free(ptr->value);
     ptr->value = temp;
     strcat(ptr->value, buffer+startIndex);
+    ptr->next = NULL;
   }while(bytesRead>0);
 
-
+  
   return 0;
 
 }
