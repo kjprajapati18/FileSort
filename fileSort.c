@@ -57,10 +57,9 @@ int main(int argc, char* argv[]){
   }
 
   //All inputs for calling the function are valid, try to read and store the words
-  Node* head = (Node*) malloc(sizeof(Node));
   LL* linkedList = (LL*) malloc(sizeof(LL));
-  linkedList->first = head;
   int valid = getInput(linkedList, fd);
+  return 0;
 
   if(valid == -1){
     printf("Fatal Error: Something went wrong reading. Errno: %d\n", errno);
@@ -118,7 +117,7 @@ int main(int argc, char* argv[]){
 //Returns -1 on read error
 //Returns 0 on malloc error (NULL malloc)
 //Returns 1 on success
-int getInput(LL* list, int fd){
+/*int getInput(LL* list, int fd){
 
   Node* head = list->first;
 
@@ -207,7 +206,41 @@ int getInput(LL* list, int fd){
   }
 
   return 1;
+  }*/
+
+int getInput(LL* list, int fd){
+
+  list->first = (Node*) malloc(sizeof(Node));
+  Node* ptr = list->first;
+  *(ptr->value) = '\0';
+  
+  int bytesRead = 1;
+  int status = 0;
+  char buffer[200];
+
+
+  
+  do{
+    bytesRead = read(fd, buffer, 200);
+    if(bytesRead == -1) return -1;
+    else if (bytesRead == 0) break;
+
+    int i = 0;
+    int startIndex = 0;
+    for(i = 0; i<bytesRead; i++){
+      if(isspace(buffer[i])){
+	buffer[i] = '\0';
+      	strncat(buffer, buffer+i+1, bytesRead-i);
+      }
+    }
+    printf("%s", buffer);
+    
+  }while(bytesRead>0);
+
+  return 0;
+
 }
+
 
 //isNumber & isString determines whether a char* is entirely numerical or alphabetical respectively
 //Return 0 for false
