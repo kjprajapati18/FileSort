@@ -81,12 +81,32 @@ int main(int argc, char* argv[]){
  
   //Check if the inputs are integers or Strings. Call the appropriate sort
   int isNum = 0;
-  if(linkedList->first == NULL){
+  /*if(linkedList->first == NULL){
     printf("Warning: File is empty\n");
     free(linkedList);
     return 0;
-  }
+    }*/
   Node* ptr = linkedList->first;
+  Node* prev= NULL;
+  while(ptr->next!= NULL){
+    prev = ptr;
+    ptr = ptr->next;
+  }
+  if (*(ptr->value) == '\0'){
+    if(prev == NULL){
+      printf("Warning: File is empty\n");
+      free(ptr->value);
+      free(ptr);
+      free(linkedList);
+      close(fd);
+      return 0;
+    } else {
+      prev->next = NULL;
+    }
+    free(ptr->value);
+    free(ptr);
+  }
+  ptr = linkedList->first;
   while(ptr != NULL){
     if(*(ptr->value) == '\0')
       ptr = ptr->next;
@@ -105,7 +125,8 @@ int main(int argc, char* argv[]){
   quicksort? quickSort(linkedList, comp) : insertionSort(linkedList, comp);
 
   ptr = linkedList->first;
-  
+  //test counts
+  //int count = 0;
   if (isNum){
     while(ptr !=NULL){
       printf("%d\n", atoi(ptr->value));
