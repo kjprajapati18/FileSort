@@ -1,3 +1,6 @@
+//TO DO LIST:
+//1. ADD IF MALLOC IS NULL RETURN ERROR
+//3. CHECK IF EVERYTHING WORKS
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -59,14 +62,14 @@ int main(int argc, char* argv[]){
   //All inputs for calling the function are valid, try to read and store the words
   LL* linkedList = (LL*) malloc(sizeof(LL));
   int valid = getInput(linkedList, fd);
-  //int counter = 1;
   Node* ptr4 = linkedList->first;
-  while(ptr4 != NULL){
+  //test print the list pre sort and post whie spce fix
+  /* while(ptr4 != NULL){
     printf("%s,", ptr4->value);
     ptr4 = ptr4->next;
-    //counter++;
-  }
-  return 0;
+    }*/
+  //FAKE RETURN TO TEST GET INPUT
+  //return 0;
 
   if(valid == -1){
     printf("Fatal Error: Something went wrong reading. Errno: %d\n", errno);
@@ -122,99 +125,9 @@ int main(int argc, char* argv[]){
 }
 
 //Returns -1 on read error
-//Returns 0 on malloc error (NULL malloc)
+//STILL IN PROGRESS: Returns 0 on malloc error (NULL malloc)
 //Returns 1 on success
-/*int getInput(LL* list, int fd){
-
-  Node* head = list->first;
-
-  char buf;                //store reads
-  Node* prev = NULL;       //Prev pointer in case of malloc returning null
-  int bytesRead = 1;       //Find out when read doesn't read any bytes
-  int numOfWordBytes = 0;  //Find out how many bytes in the current word
-  int sizeMult = 1;        //Multiplier for when we increase word malloc size
-  int initialSize = 32;    //Initial malloc size per word
-
-  while(bytesRead > 0){
-
-    //malloc initial word size and check if error
-    head->value = (char*) malloc(initialSize*sizeof(char));
-    if(head->value == NULL){
-      free(head);
-      prev->next = NULL;
-      printf("\nLast full word stored was: %s\n", prev->value);
-      return 0;
-    }
-
-    //Read one byte. If space, continue. If comma, get out of this loop so we can finalize the Node
-    do{
-      bytesRead = read(fd,&buf,1);
-      if(bytesRead == -1) return -1;
-      if(buf == ',') break;
-      if(isspace(buf) != 0) continue;
-
-      if(bytesRead != 0) *(head->value + numOfWordBytes) = buf;
-      numOfWordBytes += bytesRead;
-
-      //If we run out of space, we need to malloc more space and copy everything
-      if(numOfWordBytes == initialSize*sizeMult*sizeof(char)){
-        sizeMult*=2;
-        char* newTemp = (char*) malloc(initialSize*sizeMult*sizeof(char));
-        if(newTemp == NULL){
-          free(head->value);
-          free(head);
-          prev->next = NULL;
-          printf("\nLast full word stored was: %s\n", prev->value);
-          return 0;
-        }
-        memcpy(newTemp, head->value, numOfWordBytes+1);
-        free(head->value);
-        head->value = (char*) malloc(initialSize*sizeMult*sizeof(char));
-        memcpy(head->value, newTemp, numOfWordBytes+1);
-        free(newTemp);
-      }
-
-    }while(bytesRead >0);
-
-    //Set the null terminating character in case we hit EOF (EOF will print out question mark box)
-    *(head->value + numOfWordBytes) = '\0';
-
-    //Word is now complete, so we reset everything and move onto the next word/Node
-    if(numOfWordBytes == 0 && bytesRead == 0){
-      //Only will come here if the last character is a comma (don't create the empty token)
-      free(head->value);
-      free(head);
-
-      if(prev == NULL){
-	list->first = NULL;
-      } else {
-	prev->next = NULL;
-      }
-
-
-      return 1;
-    }
-
-    //If we exited the loop by hitting a comma, then go into this and create the next node.
-    //If EOF, no need to reset or create anything
-    if(bytesRead > 0){
-      numOfWordBytes = 0;
-      sizeMult = 1;
-
-      head->next = (Node*) malloc(sizeof(Node));
-      prev = head;
-      head = head->next;
-      if(head == NULL){
-        prev->next = NULL;
-        printf("\nLast full word stored was: %s\n", prev->value);
-        return 0;
-      }
-    }
-  }
-
-  return 1;
-  }*/
-
+  
 int getInput(LL* list, int fd){
 
   list->first = (Node*) malloc(sizeof(Node));
@@ -275,12 +188,13 @@ int getInput(LL* list, int fd){
 	char buff[strlen(ptr->value) - i];
 	strcpy(buff, ptr->value + i + 1);
 	strcat(ptr->value, buff);
+	i--;
       }
     }
     ptr = ptr->next;
   }
   
-  return 0;
+  return 1;
 
 }
 
