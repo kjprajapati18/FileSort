@@ -1,0 +1,32 @@
+input1.txt (basic test case with numbers and white space)-
+	   We tested to make sure that the file was properly read into linked lists. We also made sure that the whitespaces were properly deleted and the final output was printed in sorted order.
+
+input7.txt (basic test case with strings and whitespace)-
+	   This test was also used to ensure the file was properly read and that whitespace was deleted. We also made sure that the strings were printed in alphabetical order
+
+input3.txt (no characters in file)
+	   This test was to ensure that the program will not segfault or break when the file was empty. We looked to see that there were no memory leaks and that the warning was printed with no other extra lines.
+
+input4.txt (one word with no comma)
+	   This test was to see if the sorting functions could handle a linked list of size 1. We wanted to see that the linked list properly stored this one word since the only delimiter was an EOF, and that the program printed this one word without segfaulting or memory leaking.
+
+input5.txt ("cat,catch")
+	  This test was used to make sure that the sorting functions could handle 2 tokens and also if it could properly sort words that are contained within other words. We made sure that the output was sorted and that the program did not get stuck in an infinite loop.
+
+input6.txt (random numbers with an empty token)
+	   This test was used to make sure that integers could be properly sorted when there was a null token. We made sure to see that output was in ascending order, and that we saw a 0 in the right spot (since the empty token should be converted to 0).
+
+input2.txt (lots of words that have similar roots)
+	   This test was similar to input5.txt where we wanted to see the sorting functions properly work when the words are similar to each other. We made sure that having multiple similar words does not put the program in an infinite loop, and that the output was still printed in sorted order.
+
+input8.txt (only commas and whitespaces)
+	    This test case was used to make sure that empty tokens were properly created and that the last ',' (which is before the EOF) does not create an extra empty token. We wanted to see the program properly print the warning that the file only contained empty tokens, and we also wanted to see the correct number of new lines printed.
+
+input9.txt (only whitespace)
+	   This test case was used to ensure that a file with all whitespaces would be stored as a null linked list. We wanted to see the warning that the file was empty, and then see the program return properly without printing anything.
+
+input10.txt (the same word 4 times)
+	    This test case was used to make sure that the program could handle repeated words without getting stuck in an infinite loop. We wanted to see this word printed 4 times without any errors or any extra prints.
+
+input11.txt (very long words (200chars+) with whitespaces inside of words)
+	    This test case was used to make sure that our program, which reads 200 bytes at a time, could handle stitching together strings from multiple read calls, and still be able to remove the whitespace in between. We wanted to see that the program did not split up any of the long words, and that the output was printed in sorted order without any spaces inside the words.
