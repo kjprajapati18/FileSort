@@ -1,8 +1,0 @@
-	The first few test cases were very basic, since we just wanted to make sure that the program worked. First a read function was coded in to make sure that everything read could be split into linked lists. This read was very basic and worked perfectly on input.txt and input2.txt, which are both normal files containing either numbers or strings (no tricky edge cases).
-	After ensuring that the the list building was working properly, the 2 sort functions were coded, as well as the comparator functions. Once again, using input.txt and input2.txt, we made sure that the program could run with both of these functions as well.
-
-	Now knowing that our functions work in general cases, we decided to test edge cases. We then decided to check our comparator and sorting functions by making the tokens in the input files very similar. Thus, we used input7.txt to check how the program reacts when the words are close to each other, and input10.txt to check its behavior when the words are the same.
-
-	Once we confirmed that the sort and comparing functions were functional, input.txt and input2.txt was changed to include random whitespace characters so that we could ensure that the program can handle whitespaces in regular files. To make sure it can handle any whitespace, we also tested the program with an input of 0 characters (input3.txt), an input of only commas and whitespace (input8.txt), and an input of only whitespaces (input9.txt).
-
-	After confirming that the program can handle any kind of whitespace, we tested to see how the program handled empty tokens (though we already noted part of its behavior from testing whitespaces). Thus, we made the first character of a file an empty token (input6.txt), and then made the rest of the file integers ()
