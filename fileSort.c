@@ -61,6 +61,11 @@ int main(int argc, char* argv[]){
 
   //All inputs for calling the function are valid, try to read and store the words
   LL* linkedList = (LL*) malloc(sizeof(LL));
+  if(linkedList == NULL){
+    printf("Fatal Error: Cannot malloc enough space to start accepting tokens. \n");
+    close(fd);
+    return -1;
+  }
   int valid = getInput(linkedList, fd);
   Node* ptr4 = linkedList->first;
   //test print the list pre sort and post whie spce fix
@@ -77,8 +82,16 @@ int main(int argc, char* argv[]){
   }
   else if(valid == 0){
     printf("Error: malloc returned a NULL pointer. Continuing with currently stored values.\n");
+    if(quicksort){
+      printf("Fatal Error: cannot allocate space for quicksort");
+      return -1;
+    }
   }
- 
+  
+  else if(valid ==2){
+    printf("Fatal Error: malloc returned a NULL pointer prior to accepting tokens. \n");
+    return -1;
+  }
   //Check if the inputs are integers or Strings. Call the appropriate sort
   int isNum = 0;
   /*if(linkedList->first == NULL){
@@ -148,19 +161,30 @@ int main(int argc, char* argv[]){
 //Returns -1 on read error
 //STILL IN PROGRESS: Returns 0 on malloc error (NULL malloc)
 //Returns 1 on success
+//Returns 2 on fatal malloc error
   
 int getInput(LL* list, int fd){
 
   list->first = (Node*) malloc(sizeof(Node));
+  if(list->first == NULL){
+    return 2;
+  }
   Node* ptr = list->first;
+  Node* prev = NULL;
 
   ptr->value = (char*) malloc(1);
+  if(ptr->value == NULL){
+    free(list->first);
+    list->first = NULL;
+    return 2;
+  }
   *(ptr->value) = '\0';
   
   int bytesRead = 1;
   int size = 0;
   char buffer[201];
   int i = 0;
+  int broke = 0;
 
   
   do{
@@ -177,6 +201,13 @@ int getInput(LL* list, int fd){
       if (buffer[i] == ','){
 	size = strlen(ptr->value);
 	char* temp = (char*) malloc(i-startIndex+ size+1);
+	if(temp == NULL){
+	  free(ptr->value);
+	  free(ptr);
+	  prev->next = NULL;
+	  broke = 1;
+	  break;
+	}
 	memcpy(temp, ptr->value, size+1);
 	free(ptr->value);
 	ptr->value = temp;
@@ -184,16 +215,35 @@ int getInput(LL* list, int fd){
 	strcat(ptr->value, buffer+startIndex);
 	startIndex = i+1;
 	ptr->next = (Node *) malloc(sizeof(Node));
+	if(ptr->next == NULL){
+	  broke =1;
+	  break;
+	}
+	prev = ptr;
 	ptr = ptr->next;
 	ptr->value = (char*) malloc(1);
+	if(ptr->value == NULL){
+	  free(ptr);
+	  prev->next == NULL;
+	  broke =1;
+	  break;
+	}
 	*(ptr->value) = '\0';
       }
     }
-    
+    if(broke) break;
+
     if(bytesRead == startIndex) continue;
     buffer[200] = '\0';
     size = strlen(ptr->value);
     char* temp = (char*) malloc(bytesRead-startIndex+ size+1);
+    if(temp == NULL){
+      free(ptr->value);
+      free(ptr);
+      prev->next = NULL;
+      broke = 1;
+      break;
+    }
     memcpy(temp, ptr->value, size+1);
     free(ptr->value);
     ptr->value = temp;
@@ -214,7 +264,8 @@ int getInput(LL* list, int fd){
     }
     ptr = ptr->next;
   }
-  
+
+  if(broke == 1) return 0;
   return 1;
 
 }
