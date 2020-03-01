@@ -226,7 +226,7 @@ int getInput(LL* list, int fd){
   int bytesRead = 1;
   int size = 0;
   char buffer[201];
-
+  int i = 0;
 
   
   do{
@@ -237,7 +237,6 @@ int getInput(LL* list, int fd){
       break;
     }
     buffer[bytesRead] = '\0';
-    int i = 0;
     int startIndex = 0;
     for(i = 0; i<bytesRead; i++){
       if (buffer[i] == '\0') break;
@@ -267,7 +266,19 @@ int getInput(LL* list, int fd){
     strcat(ptr->value, buffer+startIndex);
     ptr->next = NULL;
   }while(bytesRead>0);
-
+  
+  ptr = list->first;
+  while(ptr != NULL){
+    for(i =0; i < strlen(ptr->value); i++){
+      if(isspace((ptr->value)[i])){
+	(ptr->value)[i] = '\0';
+	char buff[strlen(ptr->value) - i];
+	strcpy(buff, ptr->value + i + 1);
+	strcat(ptr->value, buff);
+      }
+    }
+    ptr = ptr->next;
+  }
   
   return 0;
 
