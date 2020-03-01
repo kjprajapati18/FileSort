@@ -68,6 +68,7 @@ int main(int argc, char* argv[]){
   }
   int valid = getInput(linkedList, fd);
   Node* ptr4 = linkedList->first;
+  close(fd);
   //test print the list pre sort and post whie spce fix
   /* while(ptr4 != NULL){
     printf("%s,", ptr4->value);
@@ -154,7 +155,6 @@ int main(int argc, char* argv[]){
   }
 
   freeList(linkedList);
-  close(fd);
   return 0;
 }
 
