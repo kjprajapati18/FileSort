@@ -17,7 +17,7 @@ typedef struct LL{
   Node* first;
 }LL;
 
-int getInput(Node* head, int fd);
+int getInput(LL* list, int fd);
 int intComparator(void* nodeOne, void* nodeTwo);
 int stringComparator(void* nodeOne, void* nodeTwo);
 int isNumber(char* string);
@@ -39,10 +39,10 @@ int main(int argc, char* argv[]){
   int quicksort = -1;
 
   if(*(argv[1]) == '-' && *(argv[1]+1) == 'q'){
-    printf("Using the quicksort flag!\n");
+    //printf("Using the quicksort flag!\n");
     quicksort = 1;
   } else if( *(argv[1]) == '-' && *(argv[1]+1)== 'i'){
-    printf("Using the insertion sort flag!\n");
+    //printf("Using the insertion sort flag!\n");
     quicksort = 0;
   } else {
     printf("Fatal Error: \"%s\" is not a valid sort flag\n", argv[1]);
@@ -60,9 +60,8 @@ int main(int argc, char* argv[]){
   Node* head = (Node*) malloc(sizeof(Node));
   LL* linkedList = (LL*) malloc(sizeof(LL));
   linkedList->first = head;
-  Node* ptr = head;
+  int valid = getInput(linkedList, fd);
 
-  int valid = getInput(head, fd);
   if(valid == -1){
     printf("Fatal Error: Something went wrong reading. Errno: %d\n", errno);
     return -1;
@@ -70,9 +69,15 @@ int main(int argc, char* argv[]){
   else if(valid == 0){
     printf("Error: malloc returned a NULL pointer. Continuing with currently stored values.\n");
   }
-  //printf("\n\n%d\n\n", isNumber(head->value));
+ 
   //Check if the inputs are integers or Strings. Call the appropriate sort
   int isNum = 0;
+  if(linkedList->first == NULL){
+    printf("Warning: File is empty\n");
+    free(linkedList);
+    return 0;
+  }
+  Node* ptr = linkedList->first;
   while(ptr != NULL){
     if(*(ptr->value) == '\0')
       ptr = ptr->next;
@@ -80,18 +85,13 @@ int main(int argc, char* argv[]){
       break;
   }
   if (ptr ==NULL){
-    printf("Warning: File is either empty or filled with empty tokens. Will treat as empty strings.\n");
-  }
-  else{
+    printf("Warning: File is filled with empty tokens. Will treat as empty strings.\n");
+  }else{
     isNum = isNumber(ptr->value);
   }
 
   ptr = linkedList->first;
-  while(ptr !=NULL){
-      printf("%s,", ptr->value);
-      ptr = ptr->next;
-  }
-  printf("\n");
+
   int (*comp) (void* p, void* q) = isNum? intComparator : stringComparator;
   quicksort? quickSort(linkedList, comp) : insertionSort(linkedList, comp);
 
@@ -118,8 +118,9 @@ int main(int argc, char* argv[]){
 //Returns -1 on read error
 //Returns 0 on malloc error (NULL malloc)
 //Returns 1 on success
-int getInput(Node* head, int fd){
+int getInput(LL* list, int fd){
 
+  Node* head = list->first;
 
   char buf;                //store reads
   Node* prev = NULL;       //Prev pointer in case of malloc returning null
@@ -175,9 +176,16 @@ int getInput(Node* head, int fd){
     //Word is now complete, so we reset everything and move onto the next word/Node
     if(numOfWordBytes == 0 && bytesRead == 0){
       //Only will come here if the last character is a comma (don't create the empty token)
-      prev->next = NULL;
       free(head->value);
       free(head);
+
+      if(prev == NULL){
+	list->first = NULL;
+      } else {
+	prev->next = NULL;
+      }
+
+
       return 1;
     }
 
